@@ -10,10 +10,10 @@ const App = () => {
 
   const generateBotResponse = async (history) => {
     //replacing the last bot's "Thinking" text with the response(helper function to update chat history)
-    const updateHistory = (text) => {
+    const updateHistory = (text,isError = false) => {
       setChatHistory((prev) => [
         ...prev.filter((msg) => msg.text !== "Thinking..."),
-        { role: "model", text },
+        { role: "model", text,isError },
       ]);
     };
 
@@ -39,7 +39,7 @@ const App = () => {
         .trim();
       updateHistory(apiResponseText);
     } catch (error) {
-      console.log(error);
+      updateHistory(error.message,true);
     }
   };
 
